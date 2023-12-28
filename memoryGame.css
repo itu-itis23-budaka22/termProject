@@ -1,0 +1,36 @@
+body {
+    margin: 0;
+    font-family: 'Arial', sans-serif;
+}
+
+h2 {
+    text-align: center;
+}
+
+.gallery {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    padding: 10px;
+    box-sizing: border-box;
+    align-items: center;
+}
+
+.image {
+    box-sizing: border-box;
+    flex: 0 0 130px;
+    margin: 5px;
+}
+
+.svg {
+    width: 100%;
+    height: auto;
+}
+
+#starterButton {
+    align-self: flex-start;
+}
+
+#restarterButton {
+    align-self: flex-start;
+}
