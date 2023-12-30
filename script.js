@@ -1,8 +1,16 @@
 let sources = ["aLetter.svg", "elLetter.svg", "pLetter.svg", "eLetter.svg", "rLetter.svg"];
 let order = ["first", "second", "third", "fourth", "fifth"];
 let score = 0;
-document.getElementById("score").innerText = score;
-let deck = shuffle();
+let i = 0;
+let deck = [0,0,0,0,0];
+let gameEnded = 0;
+document.getElementById("restarterButton").addEventListener("click", function(){
+    deck = shuffle();
+    orderArray = [-1, -1, -1, -1, -1];
+    gameEnded = 0;
+});
+
+updateScore(true, 0);
 
 let first = document.getElementById("first");
 let second = document.getElementById("second");
@@ -20,16 +28,26 @@ function startingProcess() {
     fifth.src = sources[4];
 };
 
+function updateScore(reseter, change){
+    if(reseter){
+        score = 0;
+    } else {
+        score += change;
+    }
+    let scoreElement = document.getElementById("score");
+    scoreElement.innerText = score;
+}
+
 function shuffle() {
-    let svgArray = [0, 0, 0, 0, 0];
+    let newDeck = [0,0,0,0,0];
     for (let index = 0; index < 5; index += 1) {
         let randomNumber = Math.floor(Math.random() * 5);
-        while (svgArray[randomNumber] != 0) {
+        while (newDeck[randomNumber] != 0) {
             randomNumber = Math.floor(Math.random() * 5);
         };
-        svgArray[randomNumber] = index;
+        newDeck[randomNumber] = index;
     };
-    return svgArray;
+    return newDeck;
 };
 
 function fold() {
@@ -57,31 +75,52 @@ function isEverythingSmaller(orderArray, letterNumber) {
     return false;
 };
 
-document.getElementById("restarterButton").addEventListener("click", function() {
+function restarterButton() {
+    updateScore(true, 0);
     startingProcess();
-    score = 0;
 
     // Display original images for 2 seconds
     setTimeout(function() {
         // Shuffle and display shuffled images
-        deck = shuffle();
         display(deck);
 
         // Fold into dark images after 2 seconds
         setTimeout(fold, 2000);
     }, 2000);
-});
+};
 
 function cardClicked(numberOfOrder) {
-    if (document.getElementById(order[numberOfOrder]).src.endsWith("dark.webp")) {
-        if (isEverythingSmaller(orderArray, deck[numberOfOrder])) {
-            document.getElementById(order[numberOfOrder]).src = sources[deck[numberOfOrder]];
-            score += 20;
-            orderArray[numberOfOrder] = deck[numberOfOrder];
-        } else {
-            document.getElementById(order[numberOfOrder]).src = sources[deck[numberOfOrder]];
-            alert("Wrong Choice! You lost");
+    
+    if(gameEnded == 0){ 
+        if (document.getElementById(order[numberOfOrder]).src.endsWith("dark.webp")) {
+            if (isEverythingSmaller(orderArray, deck[numberOfOrder])) {
+                document.getElementById(order[numberOfOrder]).src = sources[deck[numberOfOrder]];
+                updateScore(false, 20);
+                orderArray[numberOfOrder] = deck[numberOfOrder];
+            } else {
+                document.getElementById(order[numberOfOrder]).src = sources[deck[numberOfOrder]];
+                alert("Wrong Choice! You lost");
+                gameEnded += 1;
+            };
         };
     };
 };
 
+function starterButton(){
+    if(i == 0){
+        deck = shuffle();
+        startingProcess();
+        updateScore(true, 0);
+        score = 0;
+
+        // Display original images for 2 seconds
+        setTimeout(function() {
+            // Shuffle and display shuffled images
+            display(deck);
+
+            // Fold into dark images after 2 seconds
+            setTimeout(fold, 2000);
+        }, 2000);
+    };
+    i += 1;
+};
