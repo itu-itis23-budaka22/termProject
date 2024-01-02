@@ -1,9 +1,9 @@
 let sources = ["aLetter.svg", "elLetter.svg", "pLetter.svg", "eLetter.svg", "rLetter.svg"];
 let order = ["first", "second", "third", "fourth", "fifth"];
 let score = 0;
-let i = 0;
 let deck = [0,0,0,0,0];
 let gameEnded = 0;
+
 document.getElementById("restarterButton").addEventListener("click", function(){
     deck = shuffle();
     orderArray = [-1, -1, -1, -1, -1];
@@ -107,11 +107,10 @@ function cardClicked(numberOfOrder) {
 };
 
 function starterButton(){
-    if(i == 0){
+    if(gameEnded == 0){
         deck = shuffle();
         startingProcess();
-        updateScore(true, 0);
-        score = 0;
+        orderArray = [-1, -1, -1, -1, -1];
 
         // Display original images for 2 seconds
         setTimeout(function() {
@@ -122,5 +121,4 @@ function starterButton(){
             setTimeout(fold, 2000);
         }, 2000);
     };
-    i += 1;
 };
