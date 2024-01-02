@@ -47,6 +47,11 @@ function shuffle() {
         };
         newDeck[randomNumber] = index;
     };
+
+    if(newDeck == [0,1,2,3,4]){
+        shuffle();
+    };
+    
     return newDeck;
 };
 
